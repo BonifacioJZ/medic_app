@@ -2,13 +2,15 @@ package com.bonifacio.medic_app.persitence.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,9 +21,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "persons")
-@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,35 +32,43 @@ public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Size(max = 100)
-    @NotNull
+    @NotEmpty
+    @NotBlank
     @Column
     private String name;
     @Size(max = 150)
-    @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name = "last_name")
     private String lastName;
-    @NotNull
+    @NotEmpty
+    @NotBlank
     @Size(max = 13, min = 10)
+    @Column
     private String phone;
     @Email
     @Column
     private String email;
     @Size(max = 200)
-    @NotNull
+    @NotBlank
+    @NotEmpty
     @Column
     private String colony;
     @Size(max = 200)
-    @NotNull
+    @NotBlank
+    @NotEmpty
     @Column
     private String city;
     @NotNull
     @Column
     private LocalDate birthday;
-    @NotNull
+    @NotBlank
+    @NotEmpty
     @Column
     private String address;
     @Size(max = 18, min = 18)
-    @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(unique = true)
     private String curp;
     @Transient

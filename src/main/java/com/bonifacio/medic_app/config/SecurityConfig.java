@@ -17,13 +17,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.bonifacio.medic_app.config.filter.JwtTokenValidate;
+import com.bonifacio.medic_app.utils.JwtUtils;
 
 import static  org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    @Autowired
+    private final JwtUtils jwtUtils;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception{
@@ -36,6 +45,7 @@ public class SecurityConfig {
                 .sessionManagement(session->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
+                .addFilterBefore(new JwtTokenValidate(jwtUtils), BasicAuthenticationFilter.class)
                 .build();
     }
     @Bean

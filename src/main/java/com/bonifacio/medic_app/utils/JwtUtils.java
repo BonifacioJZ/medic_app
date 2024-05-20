@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,7 @@ public class JwtUtils {
                 .withNotBefore(new Date(System.currentTimeMillis()))
                 .sign(algorithm);
     }
-    public DecodedJWT decodedJWT(String token){
+    public DecodedJWT validateJWT(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
 
@@ -54,5 +56,15 @@ public class JwtUtils {
         }catch (JWTVerificationException e){
             throw new JWTVerificationException("El Token JWT no esta autorizado");
         }
+    }
+    public String getUsername(DecodedJWT decodedJWT){
+        return decodedJWT.getSubject().toString();
+    }
+    public Claim getClaim(DecodedJWT decodedJWT,String claims){
+        return decodedJWT.getClaim(claims);
+    }
+
+    public Map<String,Claim> getClaims(DecodedJWT decodedJWT){
+        return decodedJWT.getClaims();
     }
 }
