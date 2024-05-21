@@ -40,19 +40,19 @@ public class MedicAppApplication {
 					.permission("CREATE_USER")
 					.build();
 			RoleEntity admin = RoleEntity.builder()
-					.role(ERole.ADMIN)
+					.roleEnum(ERole.ADMIN)
 					.permissions(Set.of(createPermission,readPermission,updatePermission,deletePermission,refactorPermission))
 					.build();
 			RoleEntity user = RoleEntity.builder()
-					.role(ERole.USER)
+					.roleEnum(ERole.USER)
 					.permissions(Set.of(createPermission,readPermission))
 					.build();
 			RoleEntity medic = RoleEntity.builder()
-					.role(ERole.MEDIC)
+					.roleEnum(ERole.MEDIC)
 					.permissions(Set.of(createPermission,createUser,readPermission,deletePermission,updatePermission))
 					.build();
 			RoleEntity secretary = RoleEntity.builder()
-					.role(ERole.SECRETARY)
+					.roleEnum(ERole.SECRETARY)
 					.permissions(Set.of(createPermission,readPermission,deletePermission,updatePermission))
 					.build();
 

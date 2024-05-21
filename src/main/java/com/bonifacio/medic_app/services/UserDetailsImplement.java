@@ -1,10 +1,16 @@
 package com.bonifacio.medic_app.services;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +18,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bonifacio.medic_app.controller.dtos.auth.AuthCreateUserRequest;
 import com.bonifacio.medic_app.controller.dtos.auth.AuthRequest;
+import com.bonifacio.medic_app.mappers.IUserMapper;
+import com.bonifacio.medic_app.persitence.entities.RoleEntity;
 import com.bonifacio.medic_app.persitence.entities.UserEntity;
 import com.bonifacio.medic_app.persitence.repositories.IRoleRepository;
 import com.bonifacio.medic_app.persitence.repositories.IUserRepository;
@@ -33,11 +42,13 @@ public class UserDetailsImplement implements UserDetailsService {
     private final IRoleRepository roleRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final IUserMapper mapper;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = this.userRepository.findByUsername(username).orElseThrow(null);
+        UserEntity userEntity = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
         
         return userEntity;
     }
@@ -57,6 +68,30 @@ public class UserDetailsImplement implements UserDetailsService {
         .message("el usuario se a logeado correctamente")
         .status(true)
         .build();
+    }
+
+    public AuthRespose registerUser(AuthCreateUserRequest authCreateUserRequest){
+        List<String> rolesRequest = authCreateUserRequest.getRoles().getRoles();
+        Set<RoleEntity> roles = this.roleRepository.findRoleEntitiesByRoleEnumIn(rolesRequest).stream().collect(Collectors.toSet());
+        if(roles.isEmpty()){
+            throw new IllegalArgumentException("los roles no existen");
+        }
+        
+        UserEntity userEntity = mapper.authCreateUserToUserEntity(authCreateUserRequest);
+        userEntity.setPassword(passwordEncoder.encode(authCreateUserRequest.getPassword()));
+        userEntity.setRoles(roles);
+        UserEntity user = this.userRepository.save(userEntity);
+
+        SecurityContext securityContextHolder = SecurityContextHolder.getContext();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null,user.getAuthorities());
+        String token  = this.jwtUtils.generateToken(authentication);
+
+        return AuthRespose.builder()
+            .jwt(token)
+            .message("Usuario Creado Exitosamente")
+            .status(true)
+            .username(user.getUsername())
+            .build();
     }
 
     private Authentication authentication(String username,String password){

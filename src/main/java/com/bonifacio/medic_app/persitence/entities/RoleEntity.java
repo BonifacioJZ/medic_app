@@ -22,8 +22,9 @@ public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(name = "role_name")
     @Enumerated(EnumType.STRING)
-    private ERole role;
+    private ERole roleEnum;
     @ManyToMany(mappedBy = "roles")
     private Set<UserEntity> users = new HashSet<>();
 

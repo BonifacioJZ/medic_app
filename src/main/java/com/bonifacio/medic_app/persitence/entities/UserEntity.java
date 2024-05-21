@@ -20,6 +20,7 @@ import java.util.*;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 public class UserEntity extends PersonEntity implements UserDetails {
@@ -52,7 +53,7 @@ public class UserEntity extends PersonEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         this.getRoles().forEach(role ->{
-            authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRole().name())));
+            authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name())));
         });
         this.getRoles().stream().flatMap(role-> role.getPermissions().stream())
                 .forEach(permission->{
