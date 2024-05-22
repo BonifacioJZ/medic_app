@@ -6,7 +6,7 @@ import com.bonifacio.medic_app.controller.dtos.auth.AuthCreateUserRequest;
 import com.bonifacio.medic_app.persitence.entities.UserEntity;
 
 @Component
-public class UserMapperImplemets implements IUserMapper{
+public class UserMapperImplements implements IUserMapper{
 
     @Override
     public UserEntity authCreateUserToUserEntity(AuthCreateUserRequest user) {

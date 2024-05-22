@@ -1,9 +1,8 @@
-package com.bonifacio.medic_app.services;
+package com.bonifacio.medic_app.services.user;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,12 +44,10 @@ public class UserDetailsImplement implements UserDetailsService {
     @Autowired
     private final IUserMapper mapper;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
-        
-        return userEntity;
+
+        return this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
     }
 
     public AuthRespose loginUser(AuthRequest authRequest){
@@ -72,11 +69,11 @@ public class UserDetailsImplement implements UserDetailsService {
 
     public AuthRespose registerUser(AuthCreateUserRequest authCreateUserRequest){
         List<String> rolesRequest = authCreateUserRequest.getRoles().getRoles();
-        Set<RoleEntity> roles = this.roleRepository.findRoleEntitiesByRoleEnumIn(rolesRequest).stream().collect(Collectors.toSet());
+        Set<RoleEntity> roles = new HashSet<>(this.roleRepository.findRoleEntitiesByRoleEnumIn(rolesRequest));
         if(roles.isEmpty()){
             throw new IllegalArgumentException("los roles no existen");
         }
-        
+
         UserEntity userEntity = mapper.authCreateUserToUserEntity(authCreateUserRequest);
         userEntity.setPassword(passwordEncoder.encode(authCreateUserRequest.getPassword()));
         userEntity.setRoles(roles);

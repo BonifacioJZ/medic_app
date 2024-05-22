@@ -3,13 +3,12 @@ package com.bonifacio.medic_app.controller;
 import com.bonifacio.medic_app.controller.dtos.auth.AuthRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.bonifacio.medic_app.controller.dtos.auth.AuthCreateUserRequest;
 import com.bonifacio.medic_app.responses.AuthRespose;
-import com.bonifacio.medic_app.services.UserDetailsImplement;
+import com.bonifacio.medic_app.services.user.UserDetailsImplement;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -38,8 +37,8 @@ public class AuthController {
     public ResponseEntity<AuthRespose> login(@Valid @RequestBody AuthRequest login,BindingResult result){
         try{
             if(result.hasErrors()) throw  new IllegalArgumentException(result.getAllErrors().toString());
-            AuthRespose respose = userService.loginUser(login);
-            return new ResponseEntity<>(respose,HttpStatus.OK);
+            AuthRespose response = userService.loginUser(login);
+            return new ResponseEntity<>(response,HttpStatus.OK);
         }catch (Exception e){
             throw  new IllegalArgumentException(e.getMessage());
         }
