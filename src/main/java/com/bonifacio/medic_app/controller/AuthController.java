@@ -14,14 +14,14 @@ import com.bonifacio.medic_app.services.UserDetailsImplement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-@RequestMapping(value = "api/v1/auth")
+@RequestMapping(value = "api/v1/auth/")
 @RestController
 @AllArgsConstructor
 public class AuthController {    
 
     private final UserDetailsImplement userService;
 
-    @PostMapping(value = {"register","register/"})
+    @PostMapping(value = {"register/"})
     public ResponseEntity<AuthRespose> register(@Valid @RequestBody AuthCreateUserRequest user,
                             BindingResult result){
         try {
@@ -34,7 +34,7 @@ public class AuthController {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
-    @PostMapping(value = {"login","login/"})
+    @PostMapping(value = {"login/"})
     public ResponseEntity<AuthRespose> login(@Valid @RequestBody AuthRequest login,BindingResult result){
         try{
             if(result.hasErrors()) throw  new IllegalArgumentException(result.getAllErrors().toString());

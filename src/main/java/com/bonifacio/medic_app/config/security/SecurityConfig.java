@@ -1,9 +1,10 @@
-package com.bonifacio.medic_app.config;
+package com.bonifacio.medic_app.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +41,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request->{
                     request
-                            .anyRequest().permitAll();
+                            .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/patient/**")).hasAuthority("READ")
+                            .requestMatchers(antMatcher("/swagger-ui/**/")).permitAll()
+                            .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
+                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/auth/**/")).permitAll()
+                            .anyRequest().denyAll();
                 })
                 .sessionManagement(session->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
