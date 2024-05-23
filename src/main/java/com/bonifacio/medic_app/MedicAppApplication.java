@@ -3,12 +3,15 @@ package com.bonifacio.medic_app;
 import com.bonifacio.medic_app.persitence.entities.ERole;
 import com.bonifacio.medic_app.persitence.entities.PermissionEntity;
 import com.bonifacio.medic_app.persitence.entities.RoleEntity;
+import com.bonifacio.medic_app.persitence.entities.UserEntity;
 import com.bonifacio.medic_app.persitence.repositories.IRoleRepository;
+import com.bonifacio.medic_app.persitence.repositories.IUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.List;
 @SpringBootApplication

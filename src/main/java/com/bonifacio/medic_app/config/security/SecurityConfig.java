@@ -42,11 +42,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request->{
                     request
                             .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/patient/**")).hasAuthority("READ")
-                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/patient/**")).hasAuthority("CREATE")
+                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/patient/**")).hasAnyAuthority("ADMIN","NURSE","MEDIC","CREATE")
                             .requestMatchers(antMatcher("/swagger-ui/**/")).permitAll()
                             .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/auth/**/")).permitAll()
-                            .anyRequest().denyAll();
+                            .anyRequest().permitAll();
                 })
                 .sessionManagement(session->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
