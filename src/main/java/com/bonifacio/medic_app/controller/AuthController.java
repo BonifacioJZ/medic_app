@@ -21,11 +21,11 @@ public class AuthController {
     private final UserDetailsImplement userService;
 
     @PostMapping(value = {"register/"})
-    public ResponseEntity<AuthRespose> register(@Valid @RequestBody AuthCreateUserRequest user,
+    public ResponseEntity<?> register(@Valid @RequestBody AuthCreateUserRequest user,
                             BindingResult result){
         try {
             if(result.hasErrors()){
-                throw new IllegalArgumentException(result.getAllErrors().toString());
+                 return new ResponseEntity<>(result.getAllErrors(),HttpStatus.BAD_REQUEST);
             }
             AuthRespose response = userService.registerUser(user);
             return new ResponseEntity<>(response,HttpStatus.CREATED);

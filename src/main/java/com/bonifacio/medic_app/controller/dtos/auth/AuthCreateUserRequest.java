@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import com.bonifacio.medic_app.controller.dtos.role.AuthCreateRole;
 
+import com.bonifacio.medic_app.validations.CurpUniqueUser;
+import com.bonifacio.medic_app.validations.EmailUnique;
+import com.bonifacio.medic_app.validations.UniqueUsername;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -31,6 +34,7 @@ public class AuthCreateUserRequest {
     @Size(max = 13, min = 10)
     private String phone;
     @Email
+    @EmailUnique
     private String email;
     @Size(max = 200)
     @NotEmpty
@@ -47,9 +51,11 @@ public class AuthCreateUserRequest {
     @Size(max = 18, min = 18)
     @NotEmpty
     @NotBlank
+    @CurpUniqueUser
     private String curp;
     @NotBlank
     @NotEmpty
+    @UniqueUsername
     @Size(min = 8,max = 32)
     private String username;
     @NotEmpty
