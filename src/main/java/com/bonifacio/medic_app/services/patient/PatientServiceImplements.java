@@ -54,5 +54,4 @@ public class PatientServiceImplements implements IPatientService{
     public Response<PatientResponse> update(UUID id, PatientRequest patientRequest) {
         return null;
     }
-    //TODO(Crear las validaciones )
 }

@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface IPatientRepository extends JpaRepository<PatientEntity, UUID> {
     Optional<PatientEntity> findByCurp(String username);
+    boolean existsByCurp(String curp);
 }
