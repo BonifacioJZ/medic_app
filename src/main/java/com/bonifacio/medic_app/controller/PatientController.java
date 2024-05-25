@@ -41,13 +41,48 @@ public class PatientController {
             var response = this.patientService.save(patientRequest);
             return new ResponseEntity<>(response,HttpStatus.CREATED);
         }catch (Exception e){
-            throw new IllegalArgumentException(e);
+            return new ResponseEntity<>(Response.builder()
+                    .message("error")
+                    .data(e.getMessage())
+                    .status(false)
+                    .build(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping(value = "/{curp}")
+    @GetMapping(value = "{curp}/")
     public ResponseEntity<Response<?>> show(@PathVariable String curp){
         Response<PatientDetailsResponse> response = this.patientService.getByCurp(curp);
         if(response.getData()==null) return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
+    @PutMapping(value = "{curp}/")
+    public ResponseEntity<Response<?>> edit(@PathVariable String curp,@Valid @RequestBody PatientRequest patientRequest, BindingResult result ){
+        try{
+            if(result.hasErrors()) return  new ResponseEntity<>(Response.builder()
+                    .message("Error al Validar")
+                    .status(false)
+                    .data(result.getAllErrors())
+                    .build(),HttpStatus.BAD_REQUEST);
+            var response = this.patientService.update(curp,patientRequest);
+            if (response.getData()==null) return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        } catch (Exception e){
+          return new ResponseEntity<>(Response.builder()
+                  .message("Error")
+                  .status(false)
+                  .data(e.getMessage())
+                  .build(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping(value = {"{curp}/"})
+    public ResponseEntity<Response<?>> delete(@PathVariable String curp){
+        this.patientService.delete(curp);
+        return new ResponseEntity<>(Response.builder()
+                .message("Eliminado")
+                .data(1)
+                .status(true)
+                .build(),HttpStatus.OK);
+    }
 }
+
+

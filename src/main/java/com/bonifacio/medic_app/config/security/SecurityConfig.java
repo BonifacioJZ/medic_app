@@ -43,6 +43,8 @@ public class SecurityConfig {
                     request
                             .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/patient/**")).hasAuthority("READ")
                             .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/patient/**")).hasAnyAuthority("ADMIN","NURSE","MEDIC","CREATE")
+                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/patient/**")).hasAnyAuthority("ADMIN")
+                            .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/patient/**")).hasAnyAuthority("ADMIN")
                             .requestMatchers(antMatcher("/swagger-ui/**/")).permitAll()
                             .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/auth/**/")).permitAll()

@@ -13,5 +13,6 @@ public interface IPatientService  {
     Response<Page<PatientResponse>> getAll(Pageable pageable);
     Response<PatientResponse> save(PatientRequest patientRequest);
     Response<PatientDetailsResponse> getByCurp(String curp);
-    Response<PatientResponse> update(UUID id,PatientRequest patientRequest);
+    Response<PatientResponse> update(String curp,PatientRequest patientRequest);
+    void delete(String curp);
 }

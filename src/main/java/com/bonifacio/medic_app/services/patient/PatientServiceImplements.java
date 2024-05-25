@@ -51,7 +51,20 @@ public class PatientServiceImplements implements IPatientService{
     }
 
     @Override
-    public Response<PatientResponse> update(UUID id, PatientRequest patientRequest) {
-        return null;
+    public Response<PatientResponse> update(String curp, PatientRequest patientRequest) {
+        PatientEntity oldPatient = this.patientRepository.findByCurp(curp).orElse(null);
+
+        if(oldPatient==null) return new Response<>("No exite usuario con curp ".concat(curp),null,false);
+
+        oldPatient = this.patientMapper.updatePatient(patientRequest,oldPatient);
+        oldPatient = this.patientRepository.save(oldPatient);
+
+        PatientResponse response = this.patientMapper.patientToPatientResponse(oldPatient);
+        return  new Response<>("paciente",response,true);
+    }
+
+    @Override
+    public void delete(String curp) {
+        this.patientRepository.deleteByCurp(curp);
     }
 }
