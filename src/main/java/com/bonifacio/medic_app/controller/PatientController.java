@@ -22,7 +22,7 @@ public class PatientController {
     @Autowired
     private final IPatientService patientService;
     @GetMapping(value = {"","/"})
-    public ResponseEntity<Response<?>> index(@PageableDefault(page = 0,size = 1) Pageable pageable){
+    public ResponseEntity<Response<?>> index(@PageableDefault(page = 0,size = 10) Pageable pageable){
         try{
             var data = patientService.getAll(pageable);
             return new ResponseEntity<>(data,HttpStatus.OK);

@@ -28,8 +28,8 @@ import java.util.UUID;
 @SuperBuilder
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.JOINED)
-public class PersonEntity {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

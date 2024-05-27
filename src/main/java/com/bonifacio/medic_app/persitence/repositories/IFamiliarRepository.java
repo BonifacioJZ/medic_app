@@ -1,0 +1,10 @@
+package com.bonifacio.medic_app.persitence.repositories;
+
+import com.bonifacio.medic_app.persitence.entities.FamiliarEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
+
+public interface IFamiliarRepository extends JpaRepository<FamiliarEntity, UUID> {
+
+}
