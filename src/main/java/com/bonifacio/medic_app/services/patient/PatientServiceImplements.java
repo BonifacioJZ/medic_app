@@ -30,7 +30,7 @@ public class PatientServiceImplements implements IPatientService{
             Page<PatientResponse> data= this.patientRepository.findAll(pageable).map(this.patientMapper::patientToPatientResponse);
             return new Response<>("pacientes",data,true);
         } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new IllegalArgumentException(e);
         }
     }
 

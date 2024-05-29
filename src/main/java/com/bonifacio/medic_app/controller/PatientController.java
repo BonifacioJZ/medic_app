@@ -27,7 +27,11 @@ public class PatientController {
             var data = patientService.getAll(pageable);
             return new ResponseEntity<>(data,HttpStatus.OK);
         }catch (HttpServerErrorException e){
-            throw new IllegalArgumentException(e.getMessage());
+            return new ResponseEntity<>(Response.builder()
+                    .message("Error")
+                    .data(e.getMessage())
+                    .status(false)
+                    .build(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PostMapping(value = {"","/"})

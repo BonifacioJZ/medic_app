@@ -1,16 +1,16 @@
-package com.bonifacio.medic_app.controller.dtos.patient;
+package com.bonifacio.medic_app.controller.dtos.familiar;
 
-import com.bonifacio.medic_app.validations.CurpUniquePatient;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
+@Builder
 @Getter
-public class PatientRequest {
+public class FamiliarRequest {
     @Size(max = 100)
     @NotEmpty
     @NotBlank
@@ -40,7 +40,6 @@ public class PatientRequest {
     private String address;
     @Size(max = 18, min = 18)
     @NotBlank
-    @CurpUniquePatient
     @NotEmpty
     private String curp;
 }
