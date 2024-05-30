@@ -7,8 +7,12 @@ import com.bonifacio.medic_app.responses.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface IFamiliarService {
     Response<Page<FamiliarResponse>> getAll(Pageable pageable);
     Response<FamiliarResponse> save(FamiliarRequest familiarRequest);
     Response<FamiliarDetailResponse> show(String curp);
+    Response<FamiliarResponse> edit(String Curp, FamiliarRequest familiarRequest);
+    void delete(UUID id);
 }

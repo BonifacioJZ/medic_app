@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IFamiliarRepository extends JpaRepository<FamiliarEntity, UUID> {
-    Optional<FamiliarEntity> findByCurp(String username);
+    Optional<FamiliarEntity> findByCurp(String curp);
 
 }

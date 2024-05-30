@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class FamiliarServiceImplement implements IFamiliarService{
@@ -43,5 +45,22 @@ public class FamiliarServiceImplement implements IFamiliarService{
         FamiliarEntity familiar = this.familiarRepository.findByCurp(curp).orElse(null);
         FamiliarDetailResponse familiarDetail = this.familiarMapper.familiarToFamiliarDetailsResponse(familiar);
         return  new Response<>("Familiar",familiarDetail,true);
+    }
+
+    @Override
+    public Response<FamiliarResponse> edit(String Curp, FamiliarRequest familiarRequest) {
+        FamiliarEntity oldFamiliar = this.familiarRepository.findByCurp(Curp).orElse(null);
+        if(oldFamiliar==null) return new Response<>("No encontrado",null,false);
+
+        oldFamiliar = this.familiarMapper.updateFamiliar(oldFamiliar,familiarRequest);
+        oldFamiliar = this.familiarRepository.save(oldFamiliar);
+
+        FamiliarResponse response = this.familiarMapper.familiarToFamiliarResponse(oldFamiliar);
+        return new Response<>("Familiar", response,true);
+    }
+
+    @Override
+    public void delete(UUID uuid) {
+        this.familiarRepository.deleteById(uuid);
     }
 }

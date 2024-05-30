@@ -43,13 +43,14 @@ public class SecurityConfig {
                     request
                             .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/patient/**/")).hasAuthority("READ")
                             .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/patient/**/")).hasAnyAuthority("ADMIN","NURSE","MEDIC","CREATE")
-                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/patient/**/")).hasAnyAuthority("ADMIN","MEDIC","NURSE")
+                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/patient/**/")).hasAnyAuthority("ROLE_ADMIN","MEDIC","NURSE")
                             .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/patient/**/")).hasAnyAuthority("ADMIN")
                             .requestMatchers(antMatcher("/swagger-ui/**/")).permitAll()
                             .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/auth/**/")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/familiar/**/")).hasAuthority("READ")
-                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/familiar/**/")).hasAnyAuthority("ADMIN","NURSE","MEDIC","CREATE")
+                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/familiar/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_NURSE","ROLE_MEDIC","CREATE")
+                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/familiar/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_MEDIC","ROLE_NURSE")
                             .anyRequest().permitAll();
                 })
                 .sessionManagement(session->{

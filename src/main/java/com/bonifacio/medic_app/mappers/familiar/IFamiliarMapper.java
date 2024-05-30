@@ -9,4 +9,5 @@ public interface IFamiliarMapper {
     FamiliarResponse familiarToFamiliarResponse(FamiliarEntity familiar);
     FamiliarEntity familiarRequestToFamiliar(FamiliarRequest familiarRequest);
     FamiliarDetailResponse familiarToFamiliarDetailsResponse(FamiliarEntity familiar);
+    FamiliarEntity updateFamiliar(FamiliarEntity familiar,FamiliarRequest familiarRequest);
 }

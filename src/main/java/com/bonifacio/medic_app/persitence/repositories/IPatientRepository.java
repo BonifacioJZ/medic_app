@@ -12,5 +12,6 @@ import java.util.UUID;
 public interface IPatientRepository extends JpaRepository<PatientEntity, UUID> {
     Optional<PatientEntity> findByCurp(String username);
     boolean existsByCurp(String curp);
-    void  deleteByCurp(String curp);
+
 }
+//TODO("Crear validaciones y relacionar pacientes)

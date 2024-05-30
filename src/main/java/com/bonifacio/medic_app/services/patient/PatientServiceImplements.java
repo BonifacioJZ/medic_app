@@ -64,7 +64,7 @@ public class PatientServiceImplements implements IPatientService{
     }
 
     @Override
-    public void delete(String curp) {
-        this.patientRepository.deleteByCurp(curp);
+    public void delete(UUID id) {
+        this.patientRepository.deleteById(id);
     }
 }

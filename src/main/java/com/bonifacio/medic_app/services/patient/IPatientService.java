@@ -14,5 +14,5 @@ public interface IPatientService  {
     Response<PatientResponse> save(PatientRequest patientRequest);
     Response<PatientDetailsResponse> getByCurp(String curp);
     Response<PatientResponse> update(String curp,PatientRequest patientRequest);
-    void delete(String curp);
+    void delete(UUID id);
 }

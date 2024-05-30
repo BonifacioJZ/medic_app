@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "api/v1/familiar/")
 @AllArgsConstructor
@@ -48,5 +50,35 @@ public class FamiliarController {
         var response = this.familiarService.show(curp);
         if(response.getData() ==null) return  new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @PutMapping(value = "{curp}/")
+    public ResponseEntity<Response<?>> edit(@Valid @RequestBody FamiliarRequest familiarRequest,BindingResult result, @PathVariable String curp){
+        try{
+            if(result.hasErrors()) return new ResponseEntity<>(Response.builder()
+                    .message("Error en la validacion")
+                    .data(result.getAllErrors())
+                    .status(false)
+                    .build(),HttpStatus.BAD_REQUEST);
+
+            var response = this.familiarService.edit(curp,familiarRequest);
+            if(response.getData()==null) return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(Response.builder()
+                    .message("error")
+                    .data(e.getMessage())
+                    .status(false)
+                    .build(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping(value = "{id}/")
+    public ResponseEntity<Response<?>> delete(@PathVariable UUID id){
+        this.familiarService.delete(id);
+        return new ResponseEntity<>(Response.builder()
+                .message("Eliminado")
+                .status(true)
+                .data(1)
+                .build(),HttpStatus.OK);
     }
 }

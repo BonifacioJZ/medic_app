@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "api/v1/patient/")
 @AllArgsConstructor
@@ -78,9 +80,9 @@ public class PatientController {
                   .build(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping(value = {"{curp}/"})
-    public ResponseEntity<Response<?>> delete(@PathVariable String curp){
-        this.patientService.delete(curp);
+    @DeleteMapping(value = {"{id}/"})
+    public ResponseEntity<Response<?>> delete(@PathVariable UUID id){
+        this.patientService.delete(id);
         return new ResponseEntity<>(Response.builder()
                 .message("Eliminado")
                 .data(1)
