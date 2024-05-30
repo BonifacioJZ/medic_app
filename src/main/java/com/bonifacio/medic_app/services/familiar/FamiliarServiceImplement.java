@@ -4,7 +4,9 @@ import com.bonifacio.medic_app.controller.FamiliarController;
 import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarDetailResponse;
 import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarRequest;
 import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarResponse;
+import com.bonifacio.medic_app.controller.dtos.patient.PatientResponse;
 import com.bonifacio.medic_app.mappers.familiar.IFamiliarMapper;
+import com.bonifacio.medic_app.mappers.patient.IPatientMapper;
 import com.bonifacio.medic_app.persitence.entities.FamiliarEntity;
 import com.bonifacio.medic_app.persitence.repositories.IFamiliarRepository;
 import com.bonifacio.medic_app.responses.Response;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,8 @@ public class FamiliarServiceImplement implements IFamiliarService{
     private final IFamiliarRepository familiarRepository;
     @Autowired
     private final IFamiliarMapper familiarMapper;
+    @Autowired
+    private  final IPatientMapper patientMapper;
 
     @Override
     public Response<Page<FamiliarResponse>> getAll(Pageable pageable) {
@@ -43,7 +49,14 @@ public class FamiliarServiceImplement implements IFamiliarService{
     @Override
     public Response<FamiliarDetailResponse> show(String curp) {
         FamiliarEntity familiar = this.familiarRepository.findByCurp(curp).orElse(null);
-        FamiliarDetailResponse familiarDetail = this.familiarMapper.familiarToFamiliarDetailsResponse(familiar);
+        if(familiar == null) return new Response<>("no existe",null,false);
+
+        List<PatientResponse> patients = new ArrayList<>();
+        if(!familiar.getPatients().isEmpty()) {
+          patients = familiar.getPatients().stream().map(this.patientMapper::patientToPatientResponse).toList();
+        }
+        FamiliarDetailResponse familiarDetail = this.familiarMapper.familiarToFamiliarDetailsResponse(familiar,patients);
+
         return  new Response<>("Familiar",familiarDetail,true);
     }
 

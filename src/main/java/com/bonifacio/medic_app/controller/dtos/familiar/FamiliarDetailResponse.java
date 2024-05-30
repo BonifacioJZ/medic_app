@@ -1,9 +1,10 @@
 package com.bonifacio.medic_app.controller.dtos.familiar;
 
+import com.bonifacio.medic_app.controller.dtos.patient.PatientResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
+import java.util.List;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -22,4 +23,5 @@ public class FamiliarDetailResponse {
     private final String address;
     private final String curp;
     private final int age;
+    private final List<PatientResponse> patients;
 }

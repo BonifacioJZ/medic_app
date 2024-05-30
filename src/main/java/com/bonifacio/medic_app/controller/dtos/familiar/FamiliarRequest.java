@@ -1,5 +1,6 @@
 package com.bonifacio.medic_app.controller.dtos.familiar;
 
+import com.bonifacio.medic_app.validations.CurpUniqueFamiliar;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,5 +42,6 @@ public class FamiliarRequest {
     @Size(max = 18, min = 18)
     @NotBlank
     @NotEmpty
+    @CurpUniqueFamiliar
     private String curp;
 }

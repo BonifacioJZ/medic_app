@@ -3,10 +3,11 @@ package com.bonifacio.medic_app.mappers.familiar;
 import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarDetailResponse;
 import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarRequest;
 import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarResponse;
+import com.bonifacio.medic_app.controller.dtos.patient.PatientResponse;
 import com.bonifacio.medic_app.persitence.entities.FamiliarEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-
+import java.util.List;
 @Component
 public class FamiliarMapperImplements implements IFamiliarMapper {
     @Override
@@ -47,7 +48,7 @@ public class FamiliarMapperImplements implements IFamiliarMapper {
     }
 
     @Override
-    public FamiliarDetailResponse familiarToFamiliarDetailsResponse(FamiliarEntity familiar) {
+    public FamiliarDetailResponse familiarToFamiliarDetailsResponse(FamiliarEntity familiar, List<PatientResponse> patientResponse) {
         if(familiar==null) return null;
 
 
@@ -63,6 +64,7 @@ public class FamiliarMapperImplements implements IFamiliarMapper {
                 .birthday(familiar.getBirthday())
                 .curp(familiar.getCurp())
                 .age(familiar.getAge())
+                .patients(patientResponse)
                 .build();
     }
 
