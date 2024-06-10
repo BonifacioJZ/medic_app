@@ -13,11 +13,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Getter
-public class FamiliarPatientRequest {
+public class PatientFamiliarRequest {
     @NotEmpty
     @NotBlank
-    private final String curpFamiliar;
+    private final String curpPatient;
     @Size(max = 3)
     @NotEmpty
-    private final List<UUID> listPatients;
+    private final List<UUID> familiars;
 }

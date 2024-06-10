@@ -1,5 +1,6 @@
 package com.bonifacio.medic_app.persitence.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -36,6 +37,11 @@ public class UserEntity extends PersonEntity implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER,targetEntity = RoleEntity.class,cascade = {CascadeType.PERSIST})
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns =@JoinColumn(name = "role_id") )
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<ExpedientEntity> expedientEntities;
 
     @Column(name = "is_enabled")
     private boolean isEnabled;

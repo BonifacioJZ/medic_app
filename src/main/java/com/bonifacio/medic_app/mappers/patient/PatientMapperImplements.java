@@ -1,12 +1,13 @@
 package com.bonifacio.medic_app.mappers.patient;
 
+import com.bonifacio.medic_app.controller.dtos.familiar.FamiliarResponse;
 import com.bonifacio.medic_app.controller.dtos.patient.PatientDetailsResponse;
 import com.bonifacio.medic_app.controller.dtos.patient.PatientRequest;
 import com.bonifacio.medic_app.controller.dtos.patient.PatientResponse;
 import com.bonifacio.medic_app.persitence.entities.PatientEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-
+import java.util.List;
 @Component
 public class PatientMapperImplements implements IPatientMapper {
     @Override
@@ -46,7 +47,7 @@ public class PatientMapperImplements implements IPatientMapper {
     }
 
     @Override
-    public PatientDetailsResponse patientToPatientDetails(PatientEntity patient) {
+    public PatientDetailsResponse patientToPatientDetails(PatientEntity patient, List<FamiliarResponse> familiarResponseList) {
         if(patient==null) return null;
 
         return PatientDetailsResponse.builder()
@@ -61,6 +62,7 @@ public class PatientMapperImplements implements IPatientMapper {
                 .city(patient.getCity())
                 .birthday(patient.getBirthday())
                 .age(patient.getAge())
+                .familiars(familiarResponseList)
                 .build();
 
     }

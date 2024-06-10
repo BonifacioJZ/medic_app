@@ -27,4 +27,8 @@ public class PatientEntity extends PersonEntity{
             @JoinColumn(name = "fk_familiar") })
     @JsonIgnore
     private List<FamiliarEntity> familiars;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name ="patient_id")
+    private List<ExpedientEntity> expedients;
 }
