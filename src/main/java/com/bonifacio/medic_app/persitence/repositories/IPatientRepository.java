@@ -14,4 +14,3 @@ public interface IPatientRepository extends JpaRepository<PatientEntity, UUID> {
     boolean existsByCurp(String curp);
 
 }
-//TODO("Crear validaciones y relacionar pacientes)

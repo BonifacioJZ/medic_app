@@ -86,5 +86,8 @@ public abstract class PersonEntity {
         Period period = Period.between(this.birthday,now);
         return period.getYears();
     }
+    public String fullName(){
+        return this.name.concat(" ").concat(this.lastName);
+    }
 
 }
