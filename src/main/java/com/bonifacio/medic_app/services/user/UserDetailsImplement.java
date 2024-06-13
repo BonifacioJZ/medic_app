@@ -32,7 +32,7 @@ import lombok.AllArgsConstructor;
 @Service
 @Qualifier("user_service")
 @AllArgsConstructor
-public class UserDetailsImplement implements UserDetailsService {
+public class UserDetailsImplement implements UserDetailsService,IUserService {
     @Autowired
     private final JwtUtils jwtUtils;
     @Autowired
