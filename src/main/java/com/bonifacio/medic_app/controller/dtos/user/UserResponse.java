@@ -16,6 +16,7 @@ public class UserResponse {
     private final UUID id;
     private final String name;
     private final String lastName;
+    private final String username;
     private final String phone;
     private final String email;
     private final String colony;

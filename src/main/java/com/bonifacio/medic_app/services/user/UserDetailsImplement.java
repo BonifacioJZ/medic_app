@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.bonifacio.medic_app.controller.dtos.user.UserResponse;
+import com.bonifacio.medic_app.responses.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -103,5 +106,27 @@ public class UserDetailsImplement implements UserDetailsService,IUserService {
         }
 
         return new UsernamePasswordAuthenticationToken(username,password,userDetails.getAuthorities());
+    }
+
+    @Override
+    public Response<UserResponse> getUserByUsername(String username) {
+        UserEntity user  = this.userRepository.findByUsername(username).orElse(null);
+        if(user == null) return new Response<>("no se encontro el usuario con el nombre ".concat(username),
+                null,false);
+        UserResponse response = this.mapper.userToUserResponse(user);
+
+        return new Response<>("usuario ".concat(username),response,true);
+    }
+
+    @Override
+    public Response<UserResponse> getUserByToken(String token) {
+        DecodedJWT decodedJWT = this.jwtUtils.validateJWT(token);
+        String username = this.jwtUtils.getUsername(decodedJWT);
+
+        UserEntity user = this.userRepository.findByUsername(username).orElse(null);
+        if(user == null) return new Response<>("El usuario no existe " ,null,false);
+
+        UserResponse response = this.mapper.userToUserResponse(user);
+        return new Response<>("usuario",response,true);
     }
 }

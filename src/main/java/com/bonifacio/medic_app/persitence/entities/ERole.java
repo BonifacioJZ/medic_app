@@ -6,4 +6,5 @@ public enum ERole {
     MEDIC,
     SECRETARY,
     NURSE,
+    DEV
 }

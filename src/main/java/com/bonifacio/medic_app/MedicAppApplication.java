@@ -62,7 +62,11 @@ public class MedicAppApplication {
 							.roleEnum(ERole.NURSE)
 					        .permissions(Set.of(createPermission,readPermission,updatePermission))
 					        .build();
-			roleRepository.saveAll(List.of(admin,user,medic,secretary,nurse));
+			RoleEntity dev = RoleEntity.builder()
+							.roleEnum(ERole.DEV)
+					        .permissions(Set.of(createPermission,readPermission,updatePermission,deletePermission,refactorPermission))
+									.build();
+			roleRepository.saveAll(List.of(admin,user,medic,secretary,nurse,dev));
 		};
 	}
 

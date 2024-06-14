@@ -42,15 +42,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request->{
                     request
                             .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/patient/**/")).hasAuthority("READ")
-                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/patient/**/")).hasAnyAuthority("ADMIN","NURSE","MEDIC","CREATE")
-                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/patient/**/")).hasAnyAuthority("ROLE_ADMIN","MEDIC","NURSE")
-                            .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/patient/**/")).hasAnyAuthority("ADMIN")
+                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/patient/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_NURSE","ROLE_MEDIC","CREATE")
+                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/patient/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_MEDIC","ROLE_NURSE","ROLE_DEV")
+                            .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/patient/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_DEV")
                             .requestMatchers(antMatcher("/swagger-ui/**/")).permitAll()
                             .requestMatchers(antMatcher("/v3/api-docs/**")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/auth/**/")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/familiar/**/")).hasAuthority("READ")
-                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/familiar/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_NURSE","ROLE_MEDIC","CREATE")
-                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/familiar/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_MEDIC","ROLE_NURSE")
+                            .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/familiar/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_NURSE","ROLE_MEDIC","CREATE","ROLE_DEV")
+                            .requestMatchers(antMatcher(HttpMethod.PUT,"/api/v1/familiar/**/")).hasAnyAuthority("ROLE_ADMIN","ROLE_MEDIC","ROLE_NURSE","ROLE_DEV")
+                            .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/user/**/")).authenticated()
                             .anyRequest().permitAll();
                 })
                 .sessionManagement(session->{
